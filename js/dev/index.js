@@ -1,151 +1,5 @@
-import { d as dataMediaQueries, s as slideToggle, a as slideUp, b as bodyLockToggle, c as bodyLockStatus } from "./common.min.js";
-(function polyfill() {
-  const relList = document.createElement("link").relList;
-  if (relList && relList.supports && relList.supports("modulepreload")) return;
-  for (const link of document.querySelectorAll('link[rel="modulepreload"]')) processPreload(link);
-  new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      if (mutation.type !== "childList") continue;
-      for (const node of mutation.addedNodes) if (node.tagName === "LINK" && node.rel === "modulepreload") processPreload(node);
-    }
-  }).observe(document, {
-    childList: true,
-    subtree: true
-  });
-  function getFetchOpts(link) {
-    const fetchOpts = {};
-    if (link.integrity) fetchOpts.integrity = link.integrity;
-    if (link.referrerPolicy) fetchOpts.referrerPolicy = link.referrerPolicy;
-    if (link.crossOrigin === "use-credentials") fetchOpts.credentials = "include";
-    else if (link.crossOrigin === "anonymous") fetchOpts.credentials = "omit";
-    else fetchOpts.credentials = "same-origin";
-    return fetchOpts;
-  }
-  function processPreload(link) {
-    if (link.ep) return;
-    link.ep = true;
-    const fetchOpts = getFetchOpts(link);
-    fetch(link.href, fetchOpts);
-  }
-})();
-function spollers() {
-  const spollersArray = document.querySelectorAll("[data-fls-spollers]");
-  if (spollersArray.length > 0) {
-    let initSpollers = function(spollersArray2, matchMedia = false) {
-      spollersArray2.forEach((spollersBlock) => {
-        spollersBlock = matchMedia ? spollersBlock.item : spollersBlock;
-        if (matchMedia.matches || !matchMedia) {
-          spollersBlock.classList.add("--spoller-init");
-          initSpollerBody(spollersBlock);
-        } else {
-          spollersBlock.classList.remove("--spoller-init");
-          initSpollerBody(spollersBlock, false);
-        }
-      });
-    }, initSpollerBody = function(spollersBlock, hideSpollerBody = true) {
-      let spollerItems = spollersBlock.querySelectorAll("details");
-      if (spollerItems.length) {
-        spollerItems.forEach((spollerItem) => {
-          let spollerTitle = spollerItem.querySelector("summary");
-          if (hideSpollerBody) {
-            spollerTitle.removeAttribute("tabindex");
-            if (!spollerItem.hasAttribute("data-fls-spollers-open")) {
-              spollerItem.open = false;
-              spollerTitle.nextElementSibling.hidden = true;
-            } else {
-              spollerTitle.classList.add("--spoller-active");
-              spollerItem.open = true;
-            }
-          } else {
-            spollerTitle.setAttribute("tabindex", "-1");
-            spollerTitle.classList.remove("--spoller-active");
-            spollerItem.open = true;
-            spollerTitle.nextElementSibling.hidden = false;
-          }
-        });
-      }
-    }, setSpollerAction = function(e) {
-      const el = e.target;
-      if (el.closest("summary") && el.closest("[data-fls-spollers]")) {
-        e.preventDefault();
-        if (el.closest("[data-fls-spollers]").classList.contains("--spoller-init")) {
-          const spollerTitle = el.closest("summary");
-          const spollerBlock = spollerTitle.closest("details");
-          const spollersBlock = spollerTitle.closest("[data-fls-spollers]");
-          const oneSpoller = spollersBlock.hasAttribute("data-fls-spollers-one");
-          const scrollSpoller = spollerBlock.hasAttribute("data-fls-spollers-scroll");
-          const spollerSpeed = spollersBlock.dataset.flsSpollersSpeed ? parseInt(spollersBlock.dataset.flsSpollersSpeed) : 500;
-          if (!spollersBlock.querySelectorAll(".--slide").length) {
-            if (oneSpoller && !spollerBlock.open) {
-              hideSpollersBody(spollersBlock);
-            }
-            !spollerBlock.open ? spollerBlock.open = true : setTimeout(() => {
-              spollerBlock.open = false;
-            }, spollerSpeed);
-            spollerTitle.classList.toggle("--spoller-active");
-            slideToggle(spollerTitle.nextElementSibling, spollerSpeed);
-            if (scrollSpoller && spollerTitle.classList.contains("--spoller-active")) {
-              const scrollSpollerValue = spollerBlock.dataset.flsSpollersScroll;
-              const scrollSpollerOffset = +scrollSpollerValue ? +scrollSpollerValue : 0;
-              const scrollSpollerNoHeader = spollerBlock.hasAttribute("data-fls-spollers-scroll-noheader") ? document.querySelector(".header").offsetHeight : 0;
-              window.scrollTo(
-                {
-                  top: spollerBlock.offsetTop - (scrollSpollerOffset + scrollSpollerNoHeader),
-                  behavior: "smooth"
-                }
-              );
-            }
-          }
-        }
-      }
-      if (!el.closest("[data-fls-spollers]")) {
-        const spollersClose = document.querySelectorAll("[data-fls-spollers-close]");
-        if (spollersClose.length) {
-          spollersClose.forEach((spollerClose) => {
-            const spollersBlock = spollerClose.closest("[data-fls-spollers]");
-            const spollerCloseBlock = spollerClose.parentNode;
-            if (spollersBlock.classList.contains("--spoller-init")) {
-              const spollerSpeed = spollersBlock.dataset.flsSpollersSpeed ? parseInt(spollersBlock.dataset.flsSpollersSpeed) : 500;
-              spollerClose.classList.remove("--spoller-active");
-              slideUp(spollerClose.nextElementSibling, spollerSpeed);
-              setTimeout(() => {
-                spollerCloseBlock.open = false;
-              }, spollerSpeed);
-            }
-          });
-        }
-      }
-    }, hideSpollersBody = function(spollersBlock) {
-      const spollerActiveBlock = spollersBlock.querySelector("details[open]");
-      if (spollerActiveBlock && !spollersBlock.querySelectorAll(".--slide").length) {
-        const spollerActiveTitle = spollerActiveBlock.querySelector("summary");
-        const spollerSpeed = spollersBlock.dataset.flsSpollersSpeed ? parseInt(spollersBlock.dataset.flsSpollersSpeed) : 500;
-        spollerActiveTitle.classList.remove("--spoller-active");
-        slideUp(spollerActiveTitle.nextElementSibling, spollerSpeed);
-        setTimeout(() => {
-          spollerActiveBlock.open = false;
-        }, spollerSpeed);
-      }
-    };
-    document.addEventListener("click", setSpollerAction);
-    const spollersRegular = Array.from(spollersArray).filter(function(item, index, self) {
-      return !item.dataset.flsSpollers.split(",")[0];
-    });
-    if (spollersRegular.length) {
-      initSpollers(spollersRegular);
-    }
-    let mdQueriesArray = dataMediaQueries(spollersArray, "flsSpollers");
-    if (mdQueriesArray && mdQueriesArray.length) {
-      mdQueriesArray.forEach((mdQueriesItem) => {
-        mdQueriesItem.matchMedia.addEventListener("change", function() {
-          initSpollers(mdQueriesItem.itemsArray, mdQueriesItem.matchMedia);
-        });
-        initSpollers(mdQueriesItem.itemsArray, mdQueriesItem.matchMedia);
-      });
-    }
-  }
-}
-window.addEventListener("load", spollers);
+import "./main.min.js";
+import "./common.min.js";
 function isObject$1(obj) {
   return obj !== null && typeof obj === "object" && "constructor" in obj && obj.constructor === Object;
 }
@@ -4710,32 +4564,7 @@ function initSliders() {
       observeParents: true,
       //autoHeight: true,
       speed: 800,
-      //touchRatio: 0,
-      //simulateTouch: false,
-      // loop: true,
-      //preloadImages: false,
-      //lazy: true,
-      // Эффекты
       effect: "fade",
-      // autoplay: {
-      // 	delay: 3000,
-      // 	disableOnInteraction: false,
-      // },
-      // Пагинация
-      /*
-      pagination: {
-      	el: '.swiper-pagination',
-      	clickable: true,
-      },
-      */
-      // Скроллбар
-      /*
-      scrollbar: {
-      	el: '.swiper-scrollbar',
-      	draggable: true,
-      },
-      */
-      // Кнопки "влево/вправо"
       navigation: {
         prevEl: ".main__button-prev",
         nextEl: ".main__button-next"
@@ -4769,32 +4598,8 @@ function initSliders() {
       //autoHeight: true,
       speed: 800,
       sliderperView: 1,
-      //touchRatio: 0,
-      //simulateTouch: false,
-      // loop: true,
-      //preloadImages: false,
-      //lazy: true,
       // Эффекты
       effect: "fade",
-      // autoplay: {
-      // 	delay: 3000,
-      // 	disableOnInteraction: false,
-      // },
-      // Пагинация
-      /*
-      pagination: {
-      	el: '.swiper-pagination',
-      	clickable: true,
-      },
-      */
-      // Скроллбар
-      /*
-      scrollbar: {
-      	el: '.swiper-scrollbar',
-      	draggable: true,
-      },
-      */
-      // Кнопки "влево/вправо"
       navigation: {
         prevEl: ".reviews__button-prev",
         nextEl: ".reviews__button-next"
@@ -4803,174 +4608,80 @@ function initSliders() {
       on: {}
     });
   }
+  if (document.querySelector(".questionnaires__slider")) {
+    new Swiper(".questionnaires__slider", {
+      // <- Указываем класс нужного слайдера
+      // Подключаем модули слайдера
+      // для конкретного случая
+      modules: [Navigation, Autoplay],
+      observer: true,
+      observeParents: true,
+      //autoHeight: true,
+      speed: 800,
+      sliderperView: 1,
+      effect: "fade",
+      // Кнопки "влево/вправо"
+      navigation: {
+        prevEl: ".questionnaires__button-prev",
+        nextEl: ".questionnaires__button-next"
+      },
+      breakpoints: {
+        380: {
+          slidesPerView: 1.057,
+          spaceBetween: 10
+        },
+        560: {
+          spaceBetween: 20,
+          slidesPerView: 1.085
+        },
+        768.02: {
+          slidesPerView: 1
+        }
+      },
+      // События
+      on: {}
+    });
+  }
 }
 document.querySelector("[data-fls-slider]") ? window.addEventListener("load", initSliders) : null;
-function menuInit() {
-  document.addEventListener("click", function(e) {
-    if (bodyLockStatus && e.target.closest("[data-fls-menu]")) {
-      bodyLockToggle();
-      document.documentElement.toggleAttribute("data-fls-menu-open");
-    }
-  });
-}
-document.querySelector("[data-fls-menu]") ? window.addEventListener("load", menuInit) : null;
-class DynamicAdapt {
-  constructor() {
-    this.type = "max";
-    this.init();
+document.addEventListener("DOMContentLoaded", () => {
+  const BREAKPOINT = 900;
+  const DEBOUNCE_DELAY = 150;
+  let resizeTimeout;
+  function debounce(fn) {
+    return () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(fn, DEBOUNCE_DELAY);
+    };
   }
-  init() {
-    this.objects = [];
-    this.daClassname = "--dynamic";
-    this.nodes = [...document.querySelectorAll("[data-fls-dynamic]")];
-    this.nodes.forEach((node) => {
-      const data = node.dataset.flsDynamic.trim();
-      const dataArray = data.split(`,`);
-      const object = {};
-      object.element = node;
-      object.parent = node.parentNode;
-      object.destinationParent = dataArray[3] ? node.closest(dataArray[3].trim()) || document : document;
-      dataArray[3] ? dataArray[3].trim() : null;
-      const objectSelector = dataArray[0] ? dataArray[0].trim() : null;
-      if (objectSelector) {
-        const foundDestination = object.destinationParent.querySelector(objectSelector);
-        if (foundDestination) {
-          object.destination = foundDestination;
+  function moveImgData() {
+    document.querySelectorAll(".questionnaires__slide").forEach((slide2) => {
+      const imgData = slide2.querySelector(".questionnaires__img-data");
+      const content = slide2.querySelector(".questionnaires__top-slide");
+      if (!imgData || !content) return;
+      if (!imgData.dataset.originSaved) {
+        imgData._originalParent = imgData.parentNode;
+        imgData._originalNext = imgData.nextElementSibling;
+        imgData.dataset.originSaved = "true";
+      }
+      if (window.innerWidth <= BREAKPOINT) {
+        if (!content.contains(imgData)) {
+          content.prepend(imgData);
+        }
+      } else {
+        if (content.contains(imgData)) {
+          if (imgData._originalNext) {
+            imgData._originalParent.insertBefore(
+              imgData,
+              imgData._originalNext
+            );
+          } else {
+            imgData._originalParent.append(imgData);
+          }
         }
       }
-      object.breakpoint = dataArray[1] ? dataArray[1].trim() : `767.98`;
-      object.place = dataArray[2] ? dataArray[2].trim() : `last`;
-      object.index = this.indexInParent(object.parent, object.element);
-      this.objects.push(object);
-    });
-    this.arraySort(this.objects);
-    this.mediaQueries = this.objects.map(({ breakpoint }) => `(${this.type}-width: ${breakpoint / 16}em),${breakpoint}`).filter((item, index, self) => self.indexOf(item) === index);
-    this.mediaQueries.forEach((media) => {
-      const mediaSplit = media.split(",");
-      const matchMedia = window.matchMedia(mediaSplit[0]);
-      const mediaBreakpoint = mediaSplit[1];
-      const objectsFilter = this.objects.filter(({ breakpoint }) => breakpoint === mediaBreakpoint);
-      matchMedia.addEventListener("change", () => {
-        this.mediaHandler(matchMedia, objectsFilter);
-      });
-      this.mediaHandler(matchMedia, objectsFilter);
     });
   }
-  mediaHandler(matchMedia, objects) {
-    if (matchMedia.matches) {
-      objects.forEach((object) => {
-        if (object.destination) {
-          this.moveTo(object.place, object.element, object.destination);
-        }
-      });
-    } else {
-      objects.forEach(({ parent, element, index }) => {
-        if (element.classList.contains(this.daClassname)) {
-          this.moveBack(parent, element, index);
-        }
-      });
-    }
-  }
-  moveTo(place, element, destination) {
-    element.classList.add(this.daClassname);
-    const index = place === "last" || place === "first" ? place : parseInt(place, 10);
-    if (index === "last" || index >= destination.children.length) {
-      destination.append(element);
-    } else if (index === "first") {
-      destination.prepend(element);
-    } else {
-      destination.children[index].before(element);
-    }
-  }
-  moveBack(parent, element, index) {
-    element.classList.remove(this.daClassname);
-    if (parent.children[index] !== void 0) {
-      parent.children[index].before(element);
-    } else {
-      parent.append(element);
-    }
-  }
-  indexInParent(parent, element) {
-    return [...parent.children].indexOf(element);
-  }
-  arraySort(arr) {
-    if (this.type === "min") {
-      arr.sort((a, b) => {
-        if (a.breakpoint === b.breakpoint) {
-          if (a.place === b.place) {
-            return 0;
-          }
-          if (a.place === "first" || b.place === "last") {
-            return -1;
-          }
-          if (a.place === "last" || b.place === "first") {
-            return 1;
-          }
-          return 0;
-        }
-        return a.breakpoint - b.breakpoint;
-      });
-    } else {
-      arr.sort((a, b) => {
-        if (a.breakpoint === b.breakpoint) {
-          if (a.place === b.place) {
-            return 0;
-          }
-          if (a.place === "first" || b.place === "last") {
-            return 1;
-          }
-          if (a.place === "last" || b.place === "first") {
-            return -1;
-          }
-          return 0;
-        }
-        return b.breakpoint - a.breakpoint;
-      });
-      return;
-    }
-  }
-}
-if (document.querySelector("[data-fls-dynamic]")) {
-  window.addEventListener("load", () => window.flsDynamic = new DynamicAdapt());
-}
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector(".faq-form");
-  const emailInput = document.getElementById("faq-email");
-  const questionInput = document.getElementById("faq-question");
-  const emailError = document.getElementById("email-error");
-  const questionError = document.getElementById("question-error");
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    emailError.textContent = "";
-    questionError.textContent = "";
-    emailInput.classList.remove("is-invalid");
-    questionInput.classList.remove("is-invalid");
-    let isValid = true;
-    const emailValue = emailInput.value.trim();
-    const emailRegexp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailValue) {
-      emailError.textContent = "Field is required";
-      emailInput.classList.add("is-invalid");
-      isValid = false;
-    } else if (!emailRegexp.test(emailValue)) {
-      emailError.textContent = "Please enter a valid email";
-      emailInput.classList.add("is-invalid");
-      isValid = false;
-    }
-    const questionValue = questionInput.value.trim();
-    if (!questionValue) {
-      questionError.textContent = "Please write your question";
-      questionInput.classList.add("is-invalid");
-      isValid = false;
-    } else if (questionValue.length < 5) {
-      questionError.textContent = "Question is too short";
-      questionInput.classList.add("is-invalid");
-      isValid = false;
-    }
-    if (isValid) {
-      console.log("Form Submitted:", { email: emailValue, message: questionValue });
-      alert("Thank you! Your message has been sent.");
-      form.reset();
-    }
-  });
+  moveImgData();
+  window.addEventListener("resize", debounce(moveImgData));
 });
