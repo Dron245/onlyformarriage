@@ -5,10 +5,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="shortcut icon" href="assets/img/favicon.ico">
 		<title>About us</title>
-		<script type="module" crossorigin="" src="./js/common.min.js?v=1766743414655"></script>
-		<script type="module" crossorigin="" src="./js/main.min.js?v=1766743414655"></script>
-		<link rel="stylesheet" crossorigin="" href="./css/main.min.css?v=1766743414655">
-		<link rel="stylesheet" crossorigin="" href="./css/about-us.min.css?v=1766743414655">
+		<script type="module" crossorigin="" src="./js/common.min.js?v=1766985076422"></script>
+		<script type="module" crossorigin="" src="./js/main.min.js?v=1766985076422"></script>
+		<link rel="stylesheet" crossorigin="" href="./css/main.min.css?v=1766985076422">
+		<link rel="stylesheet" crossorigin="" href="./css/about-us.min.css?v=1766985076422">
 		<link rel="preload" as="style" href="./css/webfonts.min.css">
 		<link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');" href="./css/webfonts.min.css">
 	</head>
@@ -23,7 +23,7 @@
 						<nav class="menu__body">
 							<ul class="menu__list">
 								<li class="menu__item">
-									<a href="#" class="menu__link">Home</a>
+									<a href="/" class="menu__link">Home</a>
 								</li>
 								<li class="menu__item">
 									<a href="#" class="menu__link">Premium</a>
@@ -65,7 +65,7 @@
 					</div>
 				</div>
 			</header>
-			<main class="page page--about-us">
+			<main class="page about-us">
 				<div data-fls-breadcrumbs="" class="breadcrumbs">
 					<div class="breadcrumbs__container">
 						<ul class="breadcrumbs__list">
@@ -87,16 +87,151 @@
 									Founded in 2018 by a team of relationship experts and tech enthusiasts, our platform was born from
 						a simple idea: dating should be about connection, not swiping.
 								</p>
+								<div class="about-us-main__label-mob">
+									<p class="about-us-main__name">Alexander Voronov</p>
+									<p class="about-us-main__position">Director</p>
+								</div>
+								<div data-fls-dynamic=".about-us-main__list-mob, 992" class="about-us-main__bottom">
+									<p class="about-us-main__text">
+										We noticed that most apps focused on superficial traits, so we built a space where:
+									</p>
+									<ul class="about-us-main__list">
+										<li class="about-us-main__item">
+											<p>Conversations start with substance, not looks.</p>
+										</li>
+										<li class="about-us-main__item">
+											<p>Matches are based on values, not just proximity.</p>
+										</li>
+										<li class="about-us-main__item">
+											<p>Users feel safe to be their true selves.</p>
+										</li>
+									</ul>
+								</div>
 							</div>
-							<div class="about-us-main__img">
-								<div class="img-decor__img-wrapper">
-									<div class="img-decor__img">
+							<!-- <div class="about-us-main__img"> -->
+							<div class="img-decor__img-wrapper">
+								<div class="img-decor__img">
+									<picture>
+										<source media="(max-width: 600px)" srcset="./assets/img/about-us/main/director-600.webp" type="image/webp">
+										<img alt="Alexander Voronov" src="./assets/img/about-us/main/director.webp">
+									</picture>
+								</div>
+								<div class="label">
+									<span class="questionnaires__light"></span>
+									<div class="name">Alexander Voronov</div>
+									<div class="age-position">Director</div>
+								</div>
+							</div>
+						</div>
+						<div class="about-us-main__list-mob"></div>
+					</div>
+				</section>
+				<section class="page__team team">
+					<div class="team__container">
+						<div class="team__top">
+							<h2 class="team__title title">Our team</h2>
+							<div class="main__navigation">
+								<button type="button" class="prev border team__button-prev">
+									<svg width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M6.84518 8L0.999999 14L6.84518 20M27 14H1.1637" stroke="#333333" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+									</svg>
+								</button>
+								<button type="button" class="next border team__button-next">
+									<svg width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M6.84518 8L0.999999 14L6.84518 20M27 14H1.1637" stroke="#333333" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+									</svg>
+								</button>
+							</div>
+						</div>
+						<div data-fls-slider="" class="team__slider swiper">
+							<div class="team__wrapper swiper-wrapper">
+								<div class="team__slide swiper-slide">
+									<div class="team__img">
 										<picture>
-											<source media="(max-width: 600px)" srcset="./assets/img/about-us/main/director-600.webp" type="image/webp">
-											<img alt="Alexander Voronov" src="./assets/img/about-us/main/director.webp">
+											<img alt="Anna Sergeeva" src="./assets/img/about-us/team/1.webp">
 										</picture>
 									</div>
+									<div class="team__label">
+										<div class="team__name">Anna Sergeeva</div>
+										<div class="team__position">Lead Developer</div>
+									</div>
 								</div>
+								<div class="team__slide swiper-slide">
+									<div class="team__img">
+										<picture>
+											<img alt="Maxim Ivanov" src="./assets/img/about-us/team/2.webp">
+										</picture>
+									</div>
+									<div class="team__label">
+										<div class="team__name">Maxim Ivanov</div>
+										<div class="team__position">Security Engineer</div>
+									</div>
+								</div>
+								<div class="team__slide swiper-slide">
+									<div class="team__img">
+										<picture>
+											<img alt="Olga Petrenko" src="./assets/img/about-us/team/3.webp">
+										</picture>
+									</div>
+									<div class="team__label">
+										<div class="team__name">Olga Petrenko</div>
+										<div class="team__position">Data Scientist</div>
+									</div>
+								</div>
+								<div class="team__slide swiper-slide">
+									<div class="team__img">
+										<picture>
+											<img alt="Dmitry Koval" src="./assets/img/about-us/team/4.webp">
+										</picture>
+									</div>
+									<div class="team__label">
+										<div class="team__name">Dmitry Koval</div>
+										<div class="team__position">CPO (Chief Product Officer)</div>
+									</div>
+								</div>
+								<div class="team__slide swiper-slide">
+									<div class="team__img">
+										<picture>
+											<img alt="Anna Sergeeva" src="./assets/img/about-us/team/1.webp">
+										</picture>
+									</div>
+									<div class="team__label">
+										<div class="team__name">Anna Sergeeva</div>
+										<div class="team__position">Lead Developer</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="team__text">
+							<div class="team__text-block">
+								<h3 class="team__subtitle">Warm & Inspirational</h3>
+								<p class="team__description">
+									In a world where it’s easy to feel disconnected, everyone deserves to find someone who truly sees
+						them. We believe real connections begin not with a fleeting glance, but with a genuine
+						conversation. Our platform is designed to make those moments happen—naturally, safely, and with
+						the potential for something meaningful to grow.
+								</p>
+								<p class="team__description">
+									We don’t promise instant love, but we do provide the tools to help you express who you are and
+						recognize someone who feels like a real match. Detailed profiles, thoughtful icebreakers, and
+						smart matching algorithms work together to shorten the distance between “hello” and “I’m glad
+						you’re in my life.”
+								</p>
+							</div>
+							<div class="team__text-block">
+								<h3 class="team__subtitle">Professional & Feature‑Focused</h3>
+								<p class="team__description">
+									Our platform brings together people who are seeking meaningful relationships built on shared
+						values and mutual understanding. We move beyond superficial swiping by offering a thoughtful
+						matching experience: instead of endless random profiles, you’ll receive a curated selection of
+						potential partners with whom you have genuine common ground.
+								</p>
+								<p class="team__description">
+									The matching engine analyzes interests, life goals, and communication styles to identify
+						compatible connections. Profiles include in‑depth prompts that go beyond photos, helping you
+						discover what really matters to another person. Secure messaging and profile verification ensure a
+						safe, respectful environment for getting to know each other.
+								</p>
 							</div>
 						</div>
 					</div>

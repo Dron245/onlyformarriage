@@ -14,10 +14,263 @@
 }
 .breadcrumbs__item--active .breadcrumbs__link {
   color: #000;
+}.page__about-us {
+  margin-bottom: 7.5rem;
+}
+
+.about-us-main__container .name {
+  font-size: 1.625rem;
+}
+.about-us-main__container .age-position {
+  font-size: 1.25rem;
+}
+.about-us-main__title {
+  margin-bottom: 0;
+}
+.about-us-main__left {
+  flex: 0 0 57.259259%; /* 773/1350 */
+}
+.about-us-main__left .words {
+  margin-bottom: 5.625rem;
+}
+.about-us-main__text {
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 140%;
+  letter-spacing: -0.03em;
+}
+.about-us-main__item {
+  position: relative;
+  padding-left: 2.125rem;
+  padding-block: 0.25rem;
+}
+.about-us-main__item:not(:last-child) {
+  margin-bottom: 0.25rem;
+}
+.about-us-main__item p {
+  font-size: 1.125rem;
+  line-height: 160%;
+  color: #565656;
+}
+.about-us-main__item::before {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: #b30019;
+}
+.about-us-main__list-mob {
+  margin-top: 3.75rem;
+}
+.about-us-main__label-mob > *:not(:last-child) {
+  margin-bottom: 0.25rem;
+}
+.about-us-main__name {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #b30019;
+  line-height: 130%;
+  letter-spacing: -0.03em;
+}
+.about-us-main__position {
+  font-size: 0.875rem;
+  line-height: 160%;
+  color: #333;
+}
+
+.about-us .label {
+  bottom: 7.3%;
+}
+
+.about-us .img-decor__img::after {
+  height: 78%;
+}
+.about-us .img-decor__img img {
+  aspect-ratio: 420/616;
+  padding-left: 0rem;
+  margin-left: 1.625rem;
+  width: 89.4%;
+}
+
+.page__team {
+  margin-bottom: 12.5rem;
+}
+
+.team__top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4.375rem;
+  align-items: center;
+}
+.team__title {
+  margin-bottom: 0;
+}
+.team__slide {
+  padding-inline: 1.5625rem;
+}
+.team__img {
+  margin-bottom: 1.875rem;
+  border-radius: 100%;
+  border: 1.5625rem solid #f7f7f7;
+}
+.team__img img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 100%;
+}
+.team__label {
+  text-align: center;
+}
+.team__name {
+  font-weight: 600;
+  font-size: 1.375rem;
+  margin-bottom: 0.25rem;
+  line-height: 130%;
+  letter-spacing: -0.03em;
+}
+.team__position {
+  font-size: 1.125rem;
+  line-height: 160%;
+  color: #b30019;
+}
+.team__subtitle {
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 140%;
+  letter-spacing: -0.03em;
+}
+.team__description:not(:last-child) {
+  margin-bottom: 1.25rem;
+}
+.team__description {
+  font-size: 1.125rem;
+  line-height: 160%;
+  color: #565656;
+}
+@media (width <= 62em) {
+  .page__about-us {
+    margin-bottom: 5.625rem;
+  }
+  .about-us-main__container .age-position {
+    font-size: 1.125rem;
+  }
+  .about-us .words-content {
+    margin-top: -7.5rem;
+  }
+  .about-us .words {
+    margin-bottom: 4.25rem;
+  }
+  .page__team {
+    margin-bottom: 3.75rem;
+  }
+  .team__slide {
+    padding-inline: 1.25rem;
+  }
+}
+@media (width <= 56.25rem) and (max-width: 23.75em) {
+  .team__top {
+    margin-bottom: 2.5rem;
+  }
+}
+@media (width <= 56.25rem) {
+  .about-us .words {
+    margin-bottom: 1.875rem;
+  }
+}
+@media (width <= 48em) {
+  .page__about-us {
+    margin-bottom: 5rem;
+  }
+  .about-us .words-content {
+    margin-top: 2.5rem;
+  }
+  .page__team {
+    margin-bottom: 3.125rem;
+  }
+  .team__slider {
+    margin-right: -2.4375rem;
+  }
+  .team__slide {
+    padding-inline: 0.25rem;
+  }
+  .team__img {
+    border: 1.1875rem solid #f7f7f7;
+  }
+}
+@media (width <= 42.5rem) {
+  .about-us-main__left {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .about-us-main__left .words {
+    order: 1;
+    text-align: center;
+  }
+  .about-us-main__list-mob {
+    margin-bottom: 2.5rem;
+  }
+  .about-us-main__label-mob {
+    margin-bottom: 1.875rem;
+  }
+  .about-us-main__position {
+    text-align: center;
+  }
+  .about-us .words {
+    margin-bottom: 0;
+  }
 }
 @media (width <= 35em) {
   .breadcrumbs__list {
     justify-content: center;
+  }
+  .page__about-us {
+    margin-bottom: 3.125rem;
+  }
+  .about-us-main__text {
+    font-size: 1.5rem;
+  }
+  .about-us-main__item p {
+    font-size: 1rem;
+  }
+  .about-us-main__list-mob {
+    margin-bottom: 1.875rem;
+  }
+  .page__team {
+    margin-bottom: 2.5rem;
+  }
+  .team__top {
+    justify-content: center;
+  }
+  .team__top .main__navigation {
+    display: none;
+  }
+  .team__slider {
+    margin-right: -1.25rem;
+  }
+  .team__slide {
+    padding-inline: 0;
+  }
+  .team__img {
+    border: 1.0625rem solid #f7f7f7;
+  }
+  .team__subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 0.9375rem;
+  }
+  .team__description:not(:last-child) {
+    margin-bottom: 0.9375rem;
+  }
+  .team__description {
+    font-size: 1rem;
   }
 }
 @media (max-width: 35em) {
@@ -25,14 +278,56 @@
     margin-bottom: 1.875rem;
   }
 }
+@media (max-width: 23.75em) {
+  .team__text {
+    margin-top: 2.5rem;
+  }
+  .team__text-block:not(:last-child) {
+    margin-bottom: 0.9375rem;
+  }
+}
+@media (width <= 56.25rem) and (min-width: 62em) {
+  .team__top {
+    margin-bottom: 3.125rem;
+  }
+}
+@media (min-width: 23.75em) and (max-width: 84.375em) {
+  .team__text {
+    margin-top: clamp( 2.5rem , -0.4381443299rem  +  12.3711340206vw , 10rem );
+  }
+  .team__text-block:not(:last-child) {
+    margin-bottom: clamp( 0.9375rem , -0.1643041237125rem  +  4.6391752577vw , 3.75rem );
+  }
+}
 @media (min-width: 35em) and (max-width: 84.375em) {
   .breadcrumbs {
     margin-bottom: clamp( 1.875rem , 0.98892405063125rem  +  2.5316455696vw , 3.125rem );
   }
 }
+@media (width > 48em) and (width <= 62em) {
+  .about-us-main__label-mob {
+    margin-left: 1.875rem;
+  }
+}
+@media (width > 56.25rem) {
+  .about-us-main__label-mob {
+    display: none;
+  }
+}
+@media (width <= 56.25rem) and (min-width: 23.75em) and (max-width: 62em) {
+  .team__top {
+    margin-bottom: clamp( 2.5rem , 2.111928104575rem  +  1.6339869281vw , 3.125rem );
+  }
+}
 @media (min-width: 84.375em) {
   .breadcrumbs {
     margin-bottom: 3.125rem;
+  }
+  .team__text {
+    margin-top: 10rem;
+  }
+  .team__text-block:not(:last-child) {
+    margin-bottom: 3.75rem;
   }
 }
 @media (any-hover: hover) and (any-pointer: fine) {
